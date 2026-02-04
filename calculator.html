@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>احسب قسط سيارتك</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0b4c75">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="assets/icon-192.png" type="image/png">
+</head>
+<body>
+  <header>
+    <div class="hotline">للاستفسار: <a href="tel:1959">1959</a> <span style="opacity:.8"> | </span> <a href="tel:07736677513">07736677513</a></div>
+
+    <div class="header-row">
+      <div class="brand">
+        <img src="assets/logo-ui.png" alt="شعار الشركة">
+        <h1>شركة التأمين العراقية العامة</h1>
+      </div>
+      <button id="installBtn" class="install-btn" onclick="triggerInstall()">تثبيت</button>
+    </div>
+    <nav>
+      <a href="./">الرئيسية</a>
+      <a href="services.html">طلب وثيقة تأمين</a>
+      <a href="calculator.html">احسب قسط سيارتك</a>
+      <a href="branches.html">فروع الشركة</a>
+      <a href="claims.html">طلب تعويض</a>
+      <a href="contact.html">تواصل</a>
+      <a href="about.html">من نحن؟</a>
+    </nav>
+  </header>
+  <div class="wrap">
+    
+    <div class="card">
+      <h2>احسب قسط سيارتك</h2>
+      <form id="calc-form">
+        <label class="label" for="price">سعر المركبة (دينار)</label>
+        <input id="price" type="number" placeholder="مثال: 25000000" required>
+        <label class="label" for="category">الفئة</label>
+        <select id="category" required>
+          <option value="خصوصي_4">خصوصي 4 سلندر</option>
+          <option value="خصوصي_6">خصوصي 6 سلندر</option>
+          <option value="خصوصي_8">خصوصي 8 سلندر</option>
+          <option value="اجرة_4">أجرة 4 سلندر</option>
+          <option value="اجرة_6">أجرة 6 سلندر</option>
+          <option value="اجرة_8">أجرة 8 سلندر</option>
+          <option value="حمل_خاص">الحمل نقل خاص</option>
+          <option value="حمل_عام">الحمل نقل عام</option>
+          <option value="باص_7_12">باص 7–12 راكب</option>
+          <option value="باص_12_24">باص 12–24 راكب</option>
+          <option value="باص_25plus">باص 25 راكب فأكثر</option>
+        </select>
+        <label style="display:flex;align-items:center;gap:8px;margin:10px 0">
+          <input id="terror" type="checkbox"> تضمين خطر الإرهاب
+        </label>
+        <button class="btn" type="submit">احسب الآن</button>
+      </form>
+    </div>
+    <div id="result"></div>
+
+    <script>
+      // 1. منطق الحساب (نفس القديم)
+      document.getElementById('calc-form')?.addEventListener('submit', (e)=>{
+        e.preventDefault();
+        const price=parseFloat(document.getElementById('price').value||'0');
+        const category=document.getElementById('category').value;
+        const terror=document.getElementById('terror').checked;
+        const out=document.getElementById('result');
+        if(price<=0){ out.innerHTML='<div class="note">يرجى إدخال سعر المركبة بشكل صحيح.</div>'; return; }
+        
+        const RATES = {
+          "خصوصي_4": {risk: 2.975, liability: 0.525, terror: 1.2},
+          "خصوصي_6": {risk: 3.1875, liability: 0.5625, terror: 1.4},
+          "خصوصي_8": {risk: 3.4, liability: 0.6, terror: 1.6},
+          "اجرة_4":   {risk: 3.6125, liability: 0.6375, terror: 1.6},
+          "اجرة_6":   {risk: 4.675, liability: 0.825, terror: 1.8},
+          "اجرة_8":   {risk: 5.525, liability: 0.975, terror: 2.0},
+          "حمل_خاص":  {risk: 3.2, liability: 0.8, terror: 1.7},
+          "حمل_عام":  {risk: 4.0, liability: 1.0, terror: 2.0},
+          "باص_7_12": {risk: 5.2, liability: 1.3, terror: 2.2},
+          "باص_12_24":{risk: 5.6, liability: 1.4, terror: 2.4},
+          "باص_25plus":{risk: 6.0, liability: 1.5, terror: 2.5}
+        };
+
+        function formatIQD(n){ return new Intl.NumberFormat('ar-IQ',{maximumFractionDigits:0}).format(n)+' دينار'; }
+        
+        function calcPremium(price, cat, includeTerror){
+          const r=RATES[cat]; if(!r) return {base:0,terror:0,total:0};
+          const base=(price*(r.risk/100)) + (price*(r.liability/100));
+          const t=includeTerror ? ((price/2)*(r.terror/100)) : 0;
+          return {base, terror:t, total: Math.round(base+t)};
+        }
+
+        const {base,terror:t,total}=calcPremium(price,category,terror);
+
+        // 2. عرض النتيجة + زر الدفع المربوط بـ Vercel
+        out.innerHTML=`<div class="card">
+          <h3>نتيجة الحساب</h3>
+          <table class="table">
+            <tr><th>قسط شامل (عدا الإرهاب)</th><td>${formatIQD(Math.round(base))}</td></tr>
+            <tr><th>قسط الإرهاب</th><td>${formatIQD(Math.round(t))}</td></tr>
+            <tr><th>الإجمالي المطلوب</th><td><strong>${formatIQD(Math.round(total))}</strong></td></tr>
+          </table>
+          
+          <div style="margin-top:20px; text-align:center">
+             <button id="payBtn" class="btn" style="width:100%; background:#f1a433; color:#000; font-weight:bold; font-size:1.1em;"
+                     onclick="initiatePayment(${Math.round(total)})">
+                💳 ادفع القسط إلكترونياً (القاصة)
+             </button>
+          </div>
+
+          <p class="small">هذه نتيجة استرشادية وغير مُلزمة—يتم تثبيت القسط بعد تدقيق الوثائق.</p>
+        </div>`;
+      });
+
+      // 3. دالة الاتصال بالسيرفر (Vercel Backend)
+      async function initiatePayment(amount) {
+        const btn = document.getElementById('payBtn');
+        if(btn) { 
+          btn.innerText = "جاري الاتصال..."; 
+          btn.disabled = true; 
+        }
+
+        try {
+          // الاتصال بسيرفرك الجديد على Vercel
+          const response = await fetch('https://insurance-backend-rho.vercel.app/create-payment', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ amount: amount })
+          });
+
+          const result = await response.json();
+
+          if (result.success) {
+            // التوجيه لصفحة الدفع
+            window.location.href = `https://pay-test.alqaseh.com/pay/${result.token}`;
+          } else {
+            alert("خطأ: " + (result.error || "فشل الاتصال"));
+            if(btn) { btn.innerText = "💳 ادفع القسط إلكترونياً (القاصة)"; btn.disabled = false; }
+          }
+        } catch (e) {
+          console.error(e);
+          alert("فشل الاتصال: تأكد من الانترنت");
+          if(btn) { btn.innerText = "💳 ادفع القسط إلكترونياً "; btn.disabled = false; }
+        }
+      }
+    </script>
+
+  </div>
+  <footer>
+    <div class="ai-helper">
+      للتحدث المباشر مع المساعد الذكي الذي يعمل في خدمتكم 24/7
+      <a target="_blank" href="https://chatgpt.com/g/g-68be123152e88191aadb7ef508ccd0ee-shrk-ltmyn-l-rqy-l-m-lms-d-ldhky">اضغط هنا</a>
+    </div>
+
+    <div class="diwan-block">
+      <img src="assets/diwan.jpg" alt="شعار ديوان التأمين" class="diwan-logo">
+      <div class="diwan-text">
+        هذه المنصة مجازة من قبل ديوان التأمين بموجب أحكام قانون تنظيم اعمال التأمين رقم (10) لسنة (2005)
+      </div>
+    </div>
+
+    <div style="margin-top: 20px; border-top: 1px solid #ddd; padding-top: 20px;">
+      <div>© شركة التأمين العراقية العامة — 2026</div>
+      <div style="margin: 8px 0; font-size: 0.9em; opacity: 0.8;">
+        بتوجيه ودعم مباشر من السيد المدير العام (عاصم حميد الشوكة)
+      </div>
+      <div style="font-size: 0.85em; color: #666; max-width: 600px; margin: 0 auto;">
+        تم إطلاق هذه المنصة الذكية لغرض تقديم خدماتنا بصورة مباشرة للمواطنين، في إطار رؤية الإدارة لمواكبة التطور التكنولوجي وتطبيق الحوكمة الإلكترونية وفق توجهات وزارة المالية
+      </div>
+      <div class="small" style="margin-top:10px; font-weight: bold; color: #0b4c75;">
+        Developed by: Eng Ahmed Yaseen
+      </div>
+    </div>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>

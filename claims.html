@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>طلب تعويض - شركة التأمين العراقية العامة</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0b4c75">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="assets/icon-192.png" type="image/png">
+  
+  <style>
+    .form-group { margin-bottom: 15px; }
+    label { display: block; margin-bottom: 5px; font-weight: bold; color: #333; }
+    input, textarea, select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-sizing: border-box;
+      font-family: inherit;
+      font-size: 14px;
+      background-color: white;
+    }
+    input:focus, textarea:focus, select:focus {
+      border-color: #0b4c75;
+      outline: none;
+    }
+    .btn-submit {
+      background-color: #0b4c75;
+      color: white;
+      padding: 14px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 16px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    .btn-submit:hover { background-color: #083a5a; }
+    .btn-submit:disabled { background-color: #ccc; cursor: not-allowed; }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="hotline">للاستفسار: <a href="tel:1959">1959</a> <span style="opacity:.8"> | </span> <a href="tel:07736677513">07736677513</a></div>
+    <div class="header-row">
+      <div class="brand">
+        <img src="assets/logo-ui.png" alt="شعار الشركة">
+        <h1>شركة التأمين العراقية العامة</h1>
+      </div>
+      <button id="installBtn" class="install-btn" style="display:none;">تثبيت</button>
+    </div>
+    <nav>
+      <a href="./">الرئيسية</a>
+      <a href="services.html">خدماتنا</a>
+      <a href="calculator.html">حاسبة القسط</a>
+      <a href="branches.html">الفروع</a>
+      <a href="claims.html" class="active">التعويضات</a>
+      <a href="contact.html">تواصل</a>
+      <a href="about.html">من نحن</a>
+    </nav>
+  </header>
+
+  <div class="wrap">
+    <div class="card">
+      <h2>إجراءات طلب التعويض</h2>
+      <p>لضمان سرعة إنجاز المعاملة، يرجى ملء الاستمارة أدناه بدقة:</p>
+    </div>
+
+    <div class="card">
+      <h3>استمارة التعويض الإلكترونية</h3>
+      <form id="claimForm">
+        
+        <div class="form-group">
+          <label for="insuranceType">نوع الوثيقة المؤمن عليها:</label>
+          <select id="insuranceType" required>
+            <option value="" disabled selected>-- اختر من القائمة --</option>
+            <option value="تأمين السيارات">تأمين السيارات</option>
+            <option value="الحريق والسرقة">الحريق والسرقة</option>
+            <option value="التأمين الصحي (الجماعي)">التأمين الصحي (الجماعي)</option>
+            <option value="النقل / البحري">النقل / البحري</option>
+            <option value="التأمين على الحياة">التأمين على الحياة</option>
+            <option value="التأمين الهندسي">التأمين الهندسي</option>
+            <option value="الحوادث الشخصية">الحوادث الشخصية</option>
+            <option value="تأمين النقد">تأمين النقد</option>
+            <option value="أخرى">أخرى (Other)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="name">الاسم الثلاثي:</label>
+          <input type="text" id="name" placeholder="اسمك الكامل" required>
+        </div>
+
+        <div class="form-group">
+          <label for="phone">رقم الهاتف:</label>
+          <input type="tel" id="phone" placeholder="07xxxxxxxxx" required>
+        </div>
+
+        <div class="form-group">
+          <label for="policy">رقم الوثيقة (اختياري):</label>
+          <input type="text" id="policy" placeholder="رقم الوثيقة إن وجد">
+        </div>
+
+        <div class="form-group">
+          <label for="details">تفاصيل الحادث / الطلب:</label>
+          <textarea id="details" rows="4" placeholder="يرجى ذكر التفاصيل باختصار..." required></textarea>
+        </div>
+
+        <button type="button" id="submitBtn" onclick="submitClaim()" class="btn-submit">
+          إرسال الطلب
+        </button>
+      </form>
+    </div>
+  </div>
+
+<footer>
+    <div class="ai-helper">
+      للتحدث المباشر مع المساعد الذكي الذي يعمل في خدمتكم 24/7
+      <a target="_blank" href="https://chatgpt.com/g/g-68be123152e88191aadb7ef508ccd0ee-shrk-ltmyn-l-rqy-l-m-lms-d-ldhky">اضغط هنا</a>
+    </div>
+
+    <div class="diwan-block">
+      <img src="assets/diwan.jpg" alt="شعار ديوان التأمين" class="diwan-logo">
+      <div class="diwan-text">
+        هذه المنصة مجازة من قبل ديوان التأمين بموجب أحكام قانون تنظيم اعمال التأمين رقم (10) لسنة (2005)
+      </div>
+    </div>
+
+    <div style="margin-top: 20px; border-top: 1px solid #ddd; padding-top: 20px;">
+      <div>© شركة التأمين العراقية العامة — 2026</div>
+      <div style="margin: 8px 0; font-size: 0.9em; opacity: 0.8;">
+        بتوجيه ودعم مباشر من السيد المدير العام (عاصم حميد الشوكة)
+      </div>
+      <div style="font-size: 0.85em; color: #666; max-width: 600px; margin: 0 auto;">
+        تم إطلاق هذه المنصة الذكية لغرض تقديم خدماتنا بصورة مباشرة للمواطنين، في إطار رؤية الإدارة لمواكبة التطور التكنولوجي وتطبيق الحوكمة الإلكترونية وفق توجهات وزارة المالية
+      </div>
+      <div class="small" style="margin-top:10px; font-weight: bold; color: #0b4c75;">
+        Developed by: Eng Ahmed Yaseen
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDSmalS1Fasm1nEY0xNdMXM9nK7SRf8yRU",
+      authDomain: "iraqi-insurance.firebaseapp.com",
+      projectId: "iraqi-insurance",
+      storageBucket: "iraqi-insurance.firebasestorage.app",
+      messagingSenderId: "773514431228",
+      appId: "1:773514431228:web:0ba433a813fa586a4b6579",
+      measurementId: "G-RS1FBH9L1K"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    window.submitClaim = async function() {
+      const btn = document.getElementById('submitBtn');
+      
+      const typeVal = document.getElementById('insuranceType').value;
+      const nameVal = document.getElementById('name').value;
+      const phoneVal = document.getElementById('phone').value;
+      const policyVal = document.getElementById('policy').value;
+      const detailsVal = document.getElementById('details').value;
+
+      if (!typeVal) {
+        alert("يرجى اختيار نوع الوثيقة المؤمن عليها");
+        return;
+      }
+      if (!nameVal || !phoneVal) {
+        alert("يرجى كتابة الاسم ورقم الهاتف");
+        return;
+      }
+
+      btn.innerText = "جاري الإرسال...";
+      btn.disabled = true;
+
+      try {
+        const docRef = await addDoc(collection(db, "claims"), {
+          insurance_type: typeVal,
+          full_name: nameVal,
+          phone: phoneVal,
+          policy_number: policyVal,
+          details: detailsVal,
+          status: "جديد",
+          created_at: new Date().toLocaleString('en-GB')
+        });
+
+        alert("✅ تم استلام طلبك بنجاح! سنقوم بمراجعة القسم المختص (" + typeVal + ") والاتصال بك.");
+        document.getElementById('claimForm').reset();
+        
+      } catch (e) {
+        console.error("Error:", e);
+        alert("❌ حدث خطأ أثناء الإرسال: " + e.message);
+      } finally {
+        btn.innerText = "إرسال الطلب";
+        btn.disabled = false;
+      }
+    }
+  </script>
+</body>
+</html>

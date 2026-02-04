@@ -1,0 +1,71 @@
+
+:root{ --brand:#0b4c75; --accent:#f1a433; --bg:#f6f8fb; --ink:#122; }
+*{box-sizing:border-box}
+html{direction:rtl}
+body{margin:0;font-family:'Tahoma',system-ui,-apple-system,'Segoe UI',Roboto,Arial,'Noto Kufi Arabic','Cairo',sans-serif;background:var(--bg);color:var(--ink)}
+a{color:var(--brand);text-decoration:none}
+a:hover{text-decoration:underline}
+header{background:linear-gradient(135deg,var(--brand),#0a3956);color:#fff;padding:14px 16px;position:sticky;top:0;z-index:20}
+.header-row{display:flex;align-items:center;gap:12px;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:10px}
+.brand img{width:40px;height:40px;border-radius:10px}
+.brand h1{margin:0;font-size:22px}
+.install-btn{display:inline-flex;align-items:center;gap:6px;border:1px solid #fff3;padding:8px 10px;border-radius:10px;color:#fff;background:transparent;cursor:pointer}
+nav{margin-top:8px;display:flex;flex-wrap:wrap;gap:12px}
+nav a{color:#e9f6ff;opacity:.95}
+nav a:after{content:'•';margin:0 6px;opacity:.6}
+nav a:last-child:after{content:''}
+.wrap{max-width:1100px;margin:18px auto;padding:0 16px}
+.card{background:#fff;border-radius:16px;padding:18px;margin:12px 0;box-shadow:0 6px 20px rgba(0,0,0,.06);border:1px solid #e8eef5}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.btn{display:inline-block;padding:10px 14px;border-radius:10px;border:1px solid var(--brand);background:var(--brand);color:#fff}
+.btn.ghost{background:#fff;color:var(--brand)}
+.table{width:100%;border-collapse:collapse}
+.table th,.table td{padding:10px;border-bottom:1px solid #e8eef5;text-align:right}
+.note{background:#eef6ff;border:1px solid #cfe0ee;border-radius:12px;padding:12px 16px}
+footer{text-align:center;color:#456;padding:28px;line-height:1.6}
+.small{font-size:12px;color:#667}
+.arrow-steps{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.arrow-steps span{background:#fff;border:1px solid #e0e6ef;border-radius:999px;padding:4px 10px;font-size:13px;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.badge{display:inline-block;background:#0b4c75;color:#fff;border-radius:999px;padding:2px 8px;font-size:12px;margin-left:6px}
+/* تنسيقات قسم ديوان التأمين */
+.diwan-block {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: #fff;
+  border: 1px solid #dbeae5;
+  border-radius: 12px;
+  padding: 12px;
+  margin: 20px auto;
+  max-width: 90%;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+}
+
+.diwan-logo {
+  width: 60px; /* حجم الشعار */
+  height: auto;
+}
+
+.diwan-text {
+  font-size: 13px;
+  font-weight: bold;
+  color: #0b4c75;
+  line-height: 1.5;
+  text-align: right;
+}
+
+/* تنسيقات المساعد الذكي الجديدة */
+.ai-helper {
+  font-size: 16px !important; /* تكبير الخط درجتين */
+  font-weight: 800 !important; /* بولد عريض */
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.ai-helper a {
+  color: #ff0000 !important; /* اللون الأحمر للرابط */
+  text-decoration: underline;
+  font-weight: 900;
+}

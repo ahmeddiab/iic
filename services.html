@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>طلب وثيقة تأمين - شركة التأمين العراقية العامة</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0b4c75">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="assets/icon-192.png" type="image/png">
+  
+  <style>
+    /* تنسيق النافذة المنبثقة */
+    .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); overflow: auto; backdrop-filter: blur(4px); }
+    .modal-content { background-color: #fff; margin: 5% auto; padding: 20px; border: 1px solid #888; width: 90%; max-width: 600px; border-radius: 8px; position: relative; animation: slideDown 0.3s ease-out; }
+    @keyframes slideDown { from {top: -50px; opacity: 0;} to {top: 0; opacity: 1;} }
+    .close { color: #aaa; float: left; font-size: 28px; font-weight: bold; cursor: pointer; }
+    .close:hover { color: #000; }
+
+    /* تنسيق الحقول */
+    .form-group { margin-bottom: 15px; }
+    label { display: block; margin-bottom: 5px; font-weight: bold; color: #333; }
+    input, textarea, select { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-family: inherit; font-size: 14px; }
+    
+    /* الأقسام المخفية */
+    .dynamic-section { display: none; background: #f9f9f9; padding: 15px; border-radius: 6px; border: 1px dashed #ccc; margin-bottom: 15px; }
+    
+    .btn-submit { background-color: #0b4c75; color: white; padding: 14px; border: none; border-radius: 6px; cursor: pointer; width: 100%; font-size: 16px; font-weight: bold; margin-top: 10px; }
+    .btn-submit:hover { background-color: #083a5a; }
+    .btn-submit:disabled { background-color: #ccc; }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="hotline">للاستفسار: <a href="tel:1959">1959</a> <span style="opacity:.8"> | </span> <a href="tel:07736677513">07736677513</a></div>
+    <div class="header-row">
+      <div class="brand">
+        <img src="assets/logo-ui.png" alt="شعار الشركة">
+        <h1>شركة التأمين العراقية العامة</h1>
+      </div>
+      <button id="installBtn" class="install-btn" style="display:none;">تثبيت</button>
+    </div>
+    <nav>
+      <a href="./">الرئيسية</a>
+      <a href="services.html" class="active">طلب وثيقة تأمين</a>
+      <a href="calculator.html">احسب قسط سيارتك</a>
+      <a href="branches.html">فروع الشركة</a>
+      <a href="claims.html">طلب تعويض</a>
+      <a href="contact.html">تواصل</a>
+      <a href="about.html">من نحن؟</a>
+    </nav>
+  </header>
+
+  <div class="wrap">
+    <div class="card"><h2>خدماتنا التأمينية</h2></div>
+    
+    <div class="grid">
+      <div class="card">
+        <h3>وثيقة التأمين على السيارات</h3>
+        <p>تغطي أخطار (السرقة – الحريق – الاصطدام – الانقلاب – المسؤولية المدنية).</p>
+        <a class="btn" href="calculator.html">احسب قسط سيارتك</a>
+        <button class="btn ghost" onclick="openForm('car')">طلب وثيقة السيارات</button>
+      </div>
+
+      <div class="card">
+        <h3>تأمين ضد أخطار الحريق والسرقة</h3>
+        <p>للأعمال التجارية – المصانع – المخازن – المنازل.</p>
+        <button class="btn ghost" onclick="openForm('fire')">طلب وثيقة الحريق</button>
+      </div>
+
+      <div class="card">
+        <h3>وثيقة التأمين الصحي (الجماعي)</h3>
+        <p>للشركات والمؤسسات والجامعات (قطاع عام/خاص).</p>
+        <button class="btn ghost" onclick="openForm('health')">طلب وثيقة صحي</button>
+      </div>
+
+      <div class="card">
+        <h3>النقل / البحري</h3>
+        <p>تأمين البضائع أثناء النقل البري/البحري/الجوي.</p>
+        <button class="btn ghost" onclick="openForm('marine')">طلب تأمين نقل</button>
+      </div>
+
+      <div class="card">
+        <h3>وثيقة التأمين الهندسي</h3>
+        <p>كافة أخطار المقاولين، الأعمال الإنشائية، نصب المكائن.</p>
+        <button class="btn ghost" onclick="openForm('engineering')">طلب وثيقة هندسي</button>
+      </div>
+
+      <div class="card">
+        <h3>وثيقة التأمين على الحياة</h3>
+        <p>وثائق فردية وتوفيرية تناسب كافة الأعمار.</p>
+        <button class="btn ghost" onclick="openForm('life')">طلب وثيقة حياة</button>
+      </div>
+
+      <div class="card">
+        <h3>تأمين الحوادث الشخصية</h3>
+        <p>تغطي أخطار الوفاة بحادث أو بعجز.</p>
+        <button class="btn ghost" onclick="openForm('personal_accident')">طلب الوثيقة</button>
+      </div>
+
+      <div class="card">
+        <h3>وثيقة تأمين النقد</h3>
+        <p>حماية تأمينية للنقود أثناء النقل والحفظ.</p>
+        <button class="btn ghost" onclick="openForm('money')">طلب الوثيقة</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="serviceModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <h3 id="modalTitle" style="color:#0b4c75; border-bottom:2px solid #eee; padding-bottom:10px;">طلب وثيقة</h3>
+      
+      <form id="smartForm">
+        <input type="hidden" id="docType">
+
+        <div class="form-group">
+          <label id="labelName">الاسم الكامل:</label>
+          <input type="text" id="f_name" required>
+        </div>
+        <div class="form-group">
+          <label>رقم الهاتف (07xxxxxxxxx):</label>
+          <input type="tel" id="f_phone" required>
+        </div>
+        
+        <div id="sec_car" class="dynamic-section">
+          <label>نوع السيارة:</label>
+          <input type="text" id="car_type" placeholder="مثال: تويوتا كورولا">
+          
+          <label>سنة الصنع:</label>
+          <input type="number" id="car_year" placeholder="2020">
+          
+          <label>نوع الاستخدام:</label>
+          <select id="car_usage">
+            <option value="" disabled selected>-- اختر نوع الاستخدام --</option>
+            <option value="خصوصي">خصوصي</option>
+            <option value="أجرة">أجرة</option>
+            <option value="حمل">حمل</option>
+            <option value="باص">باص</option>
+            <option value="أخرى">أخرى</option>
+          </select>
+        </div>
+
+        <div id="sec_fire" class="dynamic-section">
+          <label>نوع العقار (منزل، مخزن، محل...):</label>
+          <input type="text" id="prop_type">
+          <label>نوع التغطية المطلوبة:</label>
+          <select id="fire_cover">
+            <option value="البناء فقط">البناء فقط</option>
+            <option value="الموجودات فقط">الموجودات فقط</option>
+            <option value="البناء والموجودات">البناء والموجودات معاً</option>
+          </select>
+        </div>
+
+        <div id="sec_eng" class="dynamic-section">
+          <label>اسم المشروع:</label>
+          <input type="text" id="eng_project">
+          <label>مبلغ المشروع (حسب الإحالة):</label>
+          <input type="text" id="eng_value">
+          <label>مدة المشروع:</label>
+          <input type="text" id="eng_duration" placeholder="مثال: 12 شهر">
+        </div>
+
+        <div id="sec_life" class="dynamic-section">
+          <label>المدة المطلوبة:</label>
+          <input type="text" id="life_duration" placeholder="مثال: 5 سنوات">
+        </div>
+
+        <div id="sec_pa" class="dynamic-section">
+          <label>العمر:</label>
+          <input type="number" id="pa_age">
+        </div>
+
+        <div id="sec_common" class="form-group">
+          <label>المحافظة - المنطقة:</label>
+          <input type="text" id="f_address">
+        </div>
+        <div id="sec_sum" class="form-group" style="display:none">
+          <label>مبلغ التأمين المطلوب:</label>
+          <input type="text" id="f_sum_insured">
+        </div>
+
+        <div class="form-group">
+          <label>ملاحظات إضافية:</label>
+          <textarea id="f_notes" rows="3"></textarea>
+        </div>
+
+        <button type="button" id="finalSubmitBtn" onclick="sendData()" class="btn-submit">إرسال الطلب</button>
+      </form>
+    </div>
+  </div>
+
+<footer>
+    <div class="ai-helper">
+      للتحدث المباشر مع المساعد الذكي الذي يعمل في خدمتكم 24/7
+      <a target="_blank" href="https://chatgpt.com/g/g-68be123152e88191aadb7ef508ccd0ee-shrk-ltmyn-l-rqy-l-m-lms-d-ldhky">اضغط هنا</a>
+    </div>
+
+    <div class="diwan-block">
+      <img src="assets/diwan.jpg" alt="شعار ديوان التأمين" class="diwan-logo">
+      <div class="diwan-text">
+        هذه المنصة مجازة من قبل ديوان التأمين بموجب أحكام قانون تنظيم اعمال التأمين رقم (10) لسنة (2005)
+      </div>
+    </div>
+
+    <div style="margin-top: 20px; border-top: 1px solid #ddd; padding-top: 20px;">
+      <div>© شركة التأمين العراقية العامة — 2026</div>
+      <div style="margin: 8px 0; font-size: 0.9em; opacity: 0.8;">
+        بتوجيه ودعم مباشر من السيد المدير العام (عاصم حميد الشوكة)
+      </div>
+      <div style="font-size: 0.85em; color: #666; max-width: 600px; margin: 0 auto;">
+        تم إطلاق هذه المنصة الذكية لغرض تقديم خدماتنا بصورة مباشرة للمواطنين، في إطار رؤية الإدارة لمواكبة التطور التكنولوجي وتطبيق الحوكمة الإلكترونية وفق توجهات وزارة المالية
+      </div>
+      <div class="small" style="margin-top:10px; font-weight: bold; color: #0b4c75;">
+        Developed by: Eng Ahmed Yaseen
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDSmalS1Fasm1nEY0xNdMXM9nK7SRf8yRU",
+      authDomain: "iraqi-insurance.firebaseapp.com",
+      projectId: "iraqi-insurance",
+      storageBucket: "iraqi-insurance.firebasestorage.app",
+      messagingSenderId: "773514431228",
+      appId: "1:773514431228:web:0ba433a813fa586a4b6579",
+      measurementId: "G-RS1FBH9L1K"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // دالة الإرسال
+    window.sendData = async function() {
+      const btn = document.getElementById('finalSubmitBtn');
+      const type = document.getElementById('docType').value;
+      
+      // جمع البيانات الأساسية
+      const baseData = {
+        request_type: type, // نوع الوثيقة
+        name: document.getElementById('f_name').value,
+        phone: document.getElementById('f_phone').value,
+        address: document.getElementById('f_address').value,
+        notes: document.getElementById('f_notes').value,
+        status: "جديد",
+        created_at: new Date().toLocaleString('en-GB')
+      };
+
+      if(!baseData.name || !baseData.phone) {
+        alert("يرجى ملء الاسم ورقم الهاتف");
+        return;
+      }
+
+      // إضافة البيانات الخاصة حسب النوع
+      if(type === 'تأمين السيارات') {
+        baseData.car_type = document.getElementById('car_type').value;
+        baseData.car_year = document.getElementById('car_year').value;
+        baseData.car_usage = document.getElementById('car_usage').value;
+      }
+      else if(type === 'تأمين الحريق') {
+        baseData.property_type = document.getElementById('prop_type').value;
+        baseData.sum_insured = document.getElementById('f_sum_insured').value;
+        baseData.cover_type = document.getElementById('fire_cover').value;
+      }
+      else if(type === 'التأمين الهندسي') {
+        baseData.project_name = document.getElementById('eng_project').value;
+        baseData.project_value = document.getElementById('eng_value').value;
+        baseData.sum_insured = document.getElementById('f_sum_insured').value;
+        baseData.duration = document.getElementById('eng_duration').value;
+      }
+      else if(type === 'تأمين الحياة') {
+        baseData.sum_insured = document.getElementById('f_sum_insured').value;
+        baseData.duration = document.getElementById('life_duration').value;
+      }
+      else if(type === 'الحوادث الشخصية') {
+        baseData.age = document.getElementById('pa_age').value;
+        baseData.sum_insured = document.getElementById('f_sum_insured').value;
+      }
+      
+      // إرسال
+      btn.innerText = "جاري الإرسال...";
+      btn.disabled = true;
+
+      try {
+        await addDoc(collection(db, "orders"), baseData);
+        alert("✅ تم استلام طلبك (" + type + ") بنجاح! سنتواصل معك قريباً.");
+        closeModal();
+      } catch (e) {
+        alert("حدث خطأ: " + e.message);
+      } finally {
+        btn.innerText = "إرسال الطلب";
+        btn.disabled = false;
+      }
+    }
+  </script>
+
+  <script>
+    function openForm(type) {
+      const modal = document.getElementById('serviceModal');
+      const title = document.getElementById('modalTitle');
+      const docType = document.getElementById('docType');
+      const labelName = document.getElementById('labelName');
+      
+      // إخفاء كل الأقسام الخاصة أولاً
+      document.querySelectorAll('.dynamic-section').forEach(el => el.style.display = 'none');
+      document.getElementById('sec_sum').style.display = 'none'; // إخفاء مبلغ التأمين افتراضياً
+      
+      // إعادة تسمية حقل الاسم افتراضياً
+      labelName.innerText = "الاسم الكامل:";
+
+      modal.style.display = "block";
+
+      // المنطق الخاص بكل نوع
+      if(type === 'car') {
+        title.innerText = "طلب تأمين السيارات";
+        docType.value = "تأمين السيارات";
+        document.getElementById('sec_car').style.display = 'block';
+      } 
+      else if(type === 'fire') {
+        title.innerText = "طلب تأمين الحريق والسرقة";
+        docType.value = "تأمين الحريق";
+        document.getElementById('sec_fire').style.display = 'block';
+        document.getElementById('sec_sum').style.display = 'block';
+      }
+      else if(type === 'health') {
+        title.innerText = "طلب التأمين الصحي (الجماعي)";
+        docType.value = "التأمين الصحي";
+        labelName.innerText = "اسم الجهة:"; // تغيير الليبل
+      }
+      else if(type === 'marine') {
+        title.innerText = "طلب تأمين النقل / البحري";
+        docType.value = "التأمين البحري";
+      }
+      else if(type === 'engineering') {
+        title.innerText = "طلب التأمين الهندسي";
+        docType.value = "التأمين الهندسي";
+        document.getElementById('sec_eng').style.display = 'block';
+        document.getElementById('sec_sum').style.display = 'block';
+      }
+      else if(type === 'life') {
+        title.innerText = "طلب التأمين على الحياة";
+        docType.value = "تأمين الحياة";
+        document.getElementById('sec_life').style.display = 'block';
+        document.getElementById('sec_sum').style.display = 'block';
+      }
+      else if(type === 'personal_accident') {
+        title.innerText = "طلب تأمين الحوادث الشخصية";
+        docType.value = "الحوادث الشخصية";
+        document.getElementById('sec_pa').style.display = 'block';
+        document.getElementById('sec_sum').style.display = 'block';
+      }
+      else if(type === 'money') {
+        title.innerText = "طلب تأمين النقد";
+        docType.value = "تأمين النقد";
+      }
+    }
+
+    function closeModal() {
+      document.getElementById('serviceModal').style.display = "none";
+      document.getElementById('smartForm').reset();
+    }
+
+    window.onclick = function(event) {
+      if (event.target == document.getElementById('serviceModal')) {
+        closeModal();
+      }
+    }
+  </script>
+</body>
+</html>
