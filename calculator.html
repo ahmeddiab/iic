@@ -137,7 +137,7 @@
             window.location.href = `https://pay-test.alqaseh.com/pay/${result.token}`;
           } else {
             alert("خطأ: " + (result.error || "فشل الاتصال"));
-            if(btn) { btn.innerText = "💳 ادفع القسط إلكترونياً (القاصة)"; btn.disabled = false; }
+            if(btn) { btn.innerText = "💳 ادفع القسط إلكترونياً "; btn.disabled = false; }
           }
         } catch (e) {
           console.error(e);
